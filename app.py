@@ -6,7 +6,7 @@ import json
 import re
 import os
 
-# === Configuration ===
+# Configuration
 MODEL_PATH = './models/sentiment/best_sentiment_model.pt'
 VOCAB_PATH = './models/sentiment/vocab.json'
 MAX_LEN = 100
@@ -15,7 +15,7 @@ HIDDEN_DIM = 120
 NUM_LAYERS = 1
 DROPOUT = 0.5
 
-# === Model Definition ===
+# Model Definition
 class BiLSTMClassifier(nn.Module):
     def __init__(self, vocab_size, embedding_dim=EMBEDDING_DIM, hidden_dim=HIDDEN_DIM,
                  output_dim=3, num_layers=NUM_LAYERS, dropout=DROPOUT):
@@ -33,7 +33,7 @@ class BiLSTMClassifier(nn.Module):
         out = self.dropout(hidden_cat)
         return self.fc(out)
 
-# === Utility Functions ===
+# Utility Functions
 def clean_and_tokenize(text):
     text = str(text).lower()
     text = re.sub(r'https?://\S+|www\.\S+', '', text)
@@ -61,7 +61,7 @@ def predict(text, model, vocab, device):
         class_map_reverse = {0: 'Negative', 1: 'Neutral', 2: 'Positive'}
         return class_map_reverse[class_id], confidence
 
-# === Load Model and Vocab ===
+# Load Model and Vocab
 @st.cache_resource
 def load_resources():
     with open(VOCAB_PATH, 'r') as f:
@@ -75,7 +75,7 @@ def load_resources():
 
 model, vocab, device = load_resources()
 
-# === Streamlit UI ===
+# Streamlit UI
 st.title("Sentiment Detection Demo")
 st.write("Enter a sentence to detect its sentiment (Negative, Neutral, Positive).")
 
