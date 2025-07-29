@@ -21,8 +21,16 @@ class BiLSTMClassifier(nn.Module):
                  output_dim=3, num_layers=NUM_LAYERS, dropout=DROPOUT):
         super().__init__()
         self.embedding = nn.Embedding(vocab_size, embedding_dim, padding_idx=0)
-        self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers,
-                            batch_first=True, dropout=dropout, bidirectional=True)
+        # self.lstm = nn.LSTM(embedding_dim, hidden_dim, num_layers,
+        #                     batch_first=True, dropout=dropout, bidirectional=True)
+        self.lstm = nn.LSTM(
+            embedding_dim, 
+            hidden_dim, 
+            num_layers, 
+            batch_first=True, 
+            dropout=dropout if num_layers > 1 else 0, 
+            bidirectional=True
+        )
         self.fc = nn.Linear(hidden_dim * 2, output_dim)
         self.dropout = nn.Dropout(dropout)
 
