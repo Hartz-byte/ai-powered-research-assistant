@@ -127,12 +127,10 @@ def main():
             st.write(f'{sentiment_q} (Confidence: {conf_q:.2f})')
 
         elif feature == 'NER':
-            # Load model & vocabs only once per app run
             vocabs, model_ner, config = load_ner_model_cached()
             ner_results = predict_ner(input_text, vocabs, model_ner, config)
             if ner_results:
                 st.subheader('Named Entity Recognition Results')
-                # Display tokens and their predicted tags
                 import pandas as pd
                 df_ner = pd.DataFrame(ner_results, columns=['Token', 'NER Tag'])
                 st.dataframe(df_ner)
